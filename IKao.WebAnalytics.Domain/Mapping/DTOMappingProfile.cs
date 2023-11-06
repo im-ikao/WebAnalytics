@@ -21,7 +21,7 @@ public class DTOMappingProfile : Profile
                 game.Players,
                 game.Media,
                 game.Play,
-                game.Published,
+                game.Publish,
                 game.CreationDate,
                 game.ModificationDate,
                 game.DeletionDate,

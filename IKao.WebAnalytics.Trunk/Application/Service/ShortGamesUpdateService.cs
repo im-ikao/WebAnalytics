@@ -45,7 +45,7 @@ public class ShortGamesUpdateService
                 nameof(Game.Description),
                 nameof(Game.Seo),
                 nameof(Game.Instruction),
-                nameof(Game.Published),
+                nameof(Game.Publish),
                 nameof(Game.Play),
                 nameof(Game.Media),
             },

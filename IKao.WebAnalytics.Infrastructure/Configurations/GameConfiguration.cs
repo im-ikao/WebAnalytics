@@ -11,16 +11,12 @@ namespace IKao.WebAnalytics.Infrastructure.Configurations;
 public class GameConfiguration : IEntityTypeConfiguration<Game> {
 
     public void Configure(EntityTypeBuilder<Game> builder) {
+        
         builder.ToTable("games");
 
         var appIdConverter = new ValueConverter<AppId, int>(
             from => from.Value, 
             to => new AppId(to));
-        
-        builder.HasKey(p => p.Id);
-        builder.Property(p => p.Id)
-            .HasConversion(appIdConverter)
-            .ValueGeneratedNever();
         
         var titleConverter = new ValueConverter<Name, string>(
             from => from.Value, 
@@ -29,6 +25,29 @@ public class GameConfiguration : IEntityTypeConfiguration<Game> {
         var descriptionConverter = new ValueConverter<Description, string>(
             from => from.Value, 
             to => new Description(to));
+        
+        var developerConverter = new ValueConverter<Developer, int>(
+            from => from.Id, 
+            to => new Developer(to));
+        
+        var ageConverter = new ValueConverter<AgeRating, int>(
+            v => (int) v,
+            v => (AgeRating) v);
+        
+        var counterConverter = new ValueConverter<Counter, int>(
+            from => from.Value, 
+            to => new Counter(to));
+        
+        var urlConverter = new ValueConverter<Url, string>(
+            from => from.Value, 
+            to => new Url(to));
+        
+        builder.HasKey(p => p.Id);
+        builder.Property(p => p.Id)
+            .HasConversion(appIdConverter)
+            .HasColumnName("id")
+            .HasColumnType("int")
+            .ValueGeneratedNever();
         
         builder
             .Property(p => p.Title)
@@ -58,20 +77,12 @@ public class GameConfiguration : IEntityTypeConfiguration<Game> {
             .HasColumnType("nvarchar(255)")
             .IsRequired();
         
-        var developerConverter = new ValueConverter<Developer, int>(
-            from => from.Id, 
-            to => new Developer(to));
-        
         builder
             .Property(p => p.Developer)
             .HasConversion(developerConverter)
             .HasColumnName("developer_id")
             .HasColumnType("int")
             .IsRequired();
-        
-        var ageConverter = new ValueConverter<AgeRating, int>(
-            v => (int) v,
-            v => (AgeRating) v);
         
         builder
             .Property(e => e.Age)
@@ -80,36 +91,73 @@ public class GameConfiguration : IEntityTypeConfiguration<Game> {
             .HasColumnType("int")
             .IsRequired();
         
-        builder.OwnsOne(b => b.Rating, pn => {
-                pn.Property(x => x.Value).HasColumnName("rating_value");
-                pn.Property(x => x.Value).HasColumnType("int");
-                pn.Property(x => x.Value).IsRequired();
-
-                pn.Property(x => x.Count).HasColumnName("rating_count");
-                pn.Property(x => x.Count).HasColumnType("int");
-                pn.Property(x => x.Count).IsRequired();
-        });
-        
-        builder.OwnsOne(b => b.Media, pn => {
-            pn.Property(x => x.Cover).HasColumnName("media_cover");
-            pn.Property(x => x.Cover).HasColumnType("string");
-            pn.Property(x => x.Cover).IsRequired();
-
-            pn.Property(x => x.Icon).HasColumnName("media_icon");
-            pn.Property(x => x.Icon).HasColumnType("string");
-            pn.Property(x => x.Icon).IsRequired();
-        });
-        
-        var playConverter = new ValueConverter<Url, string>(
-            from => from.Value, 
-            to => new Url(to));
+        builder
+            .Property(p => p.Players)
+            .HasConversion(counterConverter)
+            .HasColumnName("counter_players")
+            .HasColumnType("int")
+            .IsRequired();
         
         builder
             .Property(p => p.Play)
-            .HasConversion(playConverter)
+            .HasConversion(urlConverter)
             .HasColumnName("play_link")
-            .HasColumnType("string")
+            .HasColumnType("nvarchar(255)")
             .IsRequired();
         
+        builder.OwnsOne(b => b.Rating, pn => {
+            pn.Property(x => x.Value).HasColumnName("rating_value");
+            pn.Property(x => x.Value).HasColumnType("int");
+            pn.Property(x => x.Value).IsRequired();
+
+            pn.Property(x => x.Count).HasColumnName("rating_count");
+            pn.Property(x => x.Count).HasColumnType("int");
+            pn.Property(x => x.Count).IsRequired();
+        });
+
+        
+        builder.OwnsOne(b => b.Media, pn =>
+        {
+            pn.OwnsOne(b => b.Cover, pn =>
+            {
+                pn.Property(x => x.Value).HasColumnName("media_cover");
+                pn.Property(x => x.Value).HasColumnType("nvarchar(255)");
+                pn.Property(x => x.Value).IsRequired();
+            });
+            
+            pn.OwnsOne(b => b.Icon, pn =>
+            {
+                pn.Property(x => x.Value).HasColumnName("media_icon");
+                pn.Property(x => x.Value).HasColumnType("nvarchar(255)");
+                pn.Property(x => x.Value).IsRequired();
+            });
+        });
+
+        builder
+            .Property(x => x.Publish)
+            .HasColumnName("publish_date")
+            .HasColumnType("timestamp with time zone");
+        
+        builder
+            .Property(x => x.CreationDate)
+            .HasColumnName("creation_date")
+            .HasColumnType("timestamp with time zone");
+        
+        builder
+            .Property(x => x.ModificationDate)
+            .HasColumnName("modification_date")
+            .HasColumnType("timestamp with time zone");
+        
+        builder
+            .Property(x => x.DeletionDate)
+            .HasColumnName("deletion_date")
+            .HasColumnType("timestamp with time zone");
+        
+        builder
+            .Property(x => x.IsDeleted)
+            .HasColumnName("published_date")
+            .HasColumnType("boolean")
+            .IsRequired();
+
     }
 }

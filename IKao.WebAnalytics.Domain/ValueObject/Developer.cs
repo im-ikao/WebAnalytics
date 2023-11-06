@@ -1,8 +1,7 @@
 ﻿namespace IKao.WebAnalytics.Domain.ValueObjects;
 
-public class Developer : ValueObject
+public class Developer : Entity<int>
 {
-    public int Id { get; private set; }
     public string Name { get; private set; } = "";
 
     protected Developer() { }
