@@ -6,6 +6,8 @@ public class Media : ValueObject
     public Url Icon { get; private set; }
     public Url[] Videos { get; private set; }
     public Url[] Screenshots { get; private set; }
+    
+    protected Media() { }
 
     public Media(Url cover, Url icon, Url[] videos, Url[] screenshots)
     {

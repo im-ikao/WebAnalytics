@@ -4,6 +4,8 @@ public class Name : ValueObject
 {
     public string Value { get; private set; }
 
+    protected Name() { }
+    
     public Name(string value)
     {
         if (IsLengthValid(value) == false)

@@ -5,6 +5,8 @@ public class Rating : ValueObject
     public uint Value { get; private set; }
     public uint Count { get; private set; }
 
+    protected Rating() { }
+    
     public Rating(uint value, uint count)
     {
         if (IsInRange(value, count) == false)

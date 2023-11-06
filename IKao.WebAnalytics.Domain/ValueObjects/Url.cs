@@ -4,6 +4,8 @@ public class Url : ValueObject
 {
     public string Value { get; private set; }
 
+    protected Url() { }
+    
     public Url(string value)
     {
         if (IsUrl(value) == false)
