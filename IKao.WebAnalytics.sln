@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics", "IKao.WebAnalytics\IKao.WebAnalytics.csproj", "{58FBFB8E-8B4A-4F96-B204-9A6FACE513A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics.Domain", "IKao.WebAnalytics.Domain\IKao.WebAnalytics.Domain.csproj", "{CA5BD311-869D-4F09-9060-C200A803E8C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics.Scrape", "IKao.WebAnalytics.Scrape\IKao.WebAnalytics.Scrape.csproj", "{BE4903AB-0D1E-4DEC-879E-73B9D9051F27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics.Trunk", "IKao.WebAnalytics.Trunk\IKao.WebAnalytics.Trunk.csproj", "{CF097D93-1C5A-4E5C-AB95-2216A4F33F95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics.RateLimit", "IKao.WebAnalytics.RateLimit\IKao.WebAnalytics.RateLimit.csproj", "{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{58FBFB8E-8B4A-4F96-B204-9A6FACE513A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58FBFB8E-8B4A-4F96-B204-9A6FACE513A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58FBFB8E-8B4A-4F96-B204-9A6FACE513A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58FBFB8E-8B4A-4F96-B204-9A6FACE513A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA5BD311-869D-4F09-9060-C200A803E8C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA5BD311-869D-4F09-9060-C200A803E8C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA5BD311-869D-4F09-9060-C200A803E8C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA5BD311-869D-4F09-9060-C200A803E8C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE4903AB-0D1E-4DEC-879E-73B9D9051F27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE4903AB-0D1E-4DEC-879E-73B9D9051F27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE4903AB-0D1E-4DEC-879E-73B9D9051F27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE4903AB-0D1E-4DEC-879E-73B9D9051F27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF097D93-1C5A-4E5C-AB95-2216A4F33F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF097D93-1C5A-4E5C-AB95-2216A4F33F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF097D93-1C5A-4E5C-AB95-2216A4F33F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF097D93-1C5A-4E5C-AB95-2216A4F33F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
