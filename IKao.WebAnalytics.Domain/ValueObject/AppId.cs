@@ -2,11 +2,11 @@
 
 public class AppId : ValueObject
 {
-    public uint Value { get; private set; }
+    public int Value { get; private set; }
 
     protected AppId() { }
 
-    public AppId(uint value)
+    public AppId(int value)
     {
         Value = value;
     }
