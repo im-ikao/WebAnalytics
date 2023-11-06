@@ -2,11 +2,11 @@
 
 public class Counter : ValueObject
 {
-    public uint Value { get; private set; }
+    public int Value { get; private set; }
 
     protected Counter() { }
     
-    public Counter(uint value)
+    public Counter(int value)
     {
         Value = value;
     }

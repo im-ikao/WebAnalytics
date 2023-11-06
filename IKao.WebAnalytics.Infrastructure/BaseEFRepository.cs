@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
 using EFCore.BulkExtensions;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace IKao.WebAnalytics.Infrastructure;
 
@@ -64,6 +65,26 @@ public class BaseEFRepository : IEFRepository
     {
         InsertBaseEntityBulkConfigBootstrap<TEntity, TPrimaryKey>(config);
         await _context.BulkInsertOrUpdateAsync(entity, config, cancellationToken: cancellationToken);
+    }
+
+    public IDbContextTransaction BeginTransaction()
+    {
+        return _context.Database.BeginTransaction();
+    }
+
+    public Task<IDbContextTransaction> BeginTransactionAsync()
+    {
+        return _context.Database.BeginTransactionAsync();
+    }
+
+    public void Commit()
+    {
+        _context.Database.CommitTransaction();
+    }
+
+    public Task CommitAsync()
+    {
+        return _context.Database.CommitTransactionAsync();
     }
 
     private static void InsertBaseEntityBulkConfigBootstrap<TEntity, TPrimaryKey>(BulkConfig config)

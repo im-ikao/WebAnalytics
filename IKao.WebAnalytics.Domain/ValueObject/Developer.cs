@@ -1,13 +1,12 @@
 ﻿namespace IKao.WebAnalytics.Domain.ValueObjects;
 
-public class Developer : ValueObject
+public class Developer : Entity<int>
 {
-    public uint Id { get; private set; }
     public string Name { get; private set; } = "";
 
     protected Developer() { }
     
-    public Developer(uint id, string name) : this(id)
+    public Developer(int id, string name) : this(id)
     {
         if (IsLengthValid(name) == false)
             throw new ArgumentException(nameof(IsLengthValid));
@@ -15,7 +14,7 @@ public class Developer : ValueObject
         Name = name;
     }
 
-    public Developer(uint id)
+    public Developer(int id)
     {
         Id = id;
     }

@@ -5,8 +5,29 @@ using NodaTime;
 
 namespace IKao.WebAnalytics.Domain.Model;
 
-public class Game : BaseEntity<AppId>
+public sealed class Game : BaseEntity<AppId>
 {
+    protected Game() { }
+    
+    public Game(Name title, Description description, Description seo, Description instruction, Developer developer, AgeRating age, Rating rating, Counter players, Media media, Url play, Instant? publish, Instant creationDate, Instant? modificationDate, Instant? deletionDate, bool isDeleted)
+    {
+        Title = title;
+        Description = description;
+        Seo = seo;
+        Instruction = instruction;
+        Developer = developer;
+        Age = age;
+        Rating = rating;
+        Players = players;
+        Media = media;
+        Play = play;
+        Publish = publish;
+        CreationDate = creationDate;
+        ModificationDate = modificationDate;
+        DeletionDate = deletionDate;
+        IsDeleted = isDeleted;
+    }
+
     public Name Title { get; set; }
     public Description Description { get; set; } 
     public Description Seo { get; set; } 
@@ -21,9 +42,9 @@ public class Game : BaseEntity<AppId>
     
     public Url Play { get; set; } 
 
-    public Instant? Published { get; set; } 
-    public virtual Instant CreationDate { get; set; }
-    public virtual Instant? ModificationDate { get; set; }
-    public virtual Instant? DeletionDate { get; set; }
-    public virtual bool IsDeleted { get; set; }
+    public Instant? Publish { get; set; } 
+    public override Instant CreationDate { get; set; }
+    public override Instant? ModificationDate { get; set; }
+    public override Instant? DeletionDate { get; set; }
+    public override bool IsDeleted { get; set; }
 }

@@ -2,9 +2,9 @@
 
 public class Marker : ValueObject
 {
-    public uint Id { get; private set; }
+    public int Id { get; private set; }
     
-    public Marker(uint id)
+    public Marker(int id)
     {
         Id = id;
     }
