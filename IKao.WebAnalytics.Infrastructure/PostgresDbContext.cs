@@ -25,8 +25,11 @@ public class PostgresDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        
         builder.ApplyConfiguration(new GameConfiguration());
+        builder.ApplyConfiguration(new DeveloperConfiguration());
     }
     
     public DbSet<Game> Games { get; set; }
+    public DbSet<Developer> Developers { get; set; }
 }

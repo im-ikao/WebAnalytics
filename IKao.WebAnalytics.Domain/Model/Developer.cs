@@ -1,9 +1,10 @@
-﻿namespace IKao.WebAnalytics.Domain.ValueObjects;
+﻿namespace IKao.WebAnalytics.Domain.Model;
 
 public class Developer : Entity<int>
 {
     public string Name { get; private set; } = "";
-
+    public virtual ICollection<Game> RelationGames { get; set; }
+    
     protected Developer() { }
     
     public Developer(int id, string name) : this(id)

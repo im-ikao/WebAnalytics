@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace IKao.WebAnalytics.Infrastructure.Configurations;
 
-public class GameConfiguration : IEntityTypeConfiguration<Game> {
-
+public class GameConfiguration : IEntityTypeConfiguration<Game> 
+{
     public void Configure(EntityTypeBuilder<Game> builder) {
         
         builder.ToTable("games");
@@ -78,13 +78,6 @@ public class GameConfiguration : IEntityTypeConfiguration<Game> {
             .IsRequired();
         
         builder
-            .Property(p => p.Developer)
-            .HasConversion(developerConverter)
-            .HasColumnName("developer_id")
-            .HasColumnType("int")
-            .IsRequired();
-        
-        builder
             .Property(e => e.Age)
             .HasConversion(ageConverter)
             .HasColumnName("age_rating")
@@ -105,34 +98,6 @@ public class GameConfiguration : IEntityTypeConfiguration<Game> {
             .HasColumnType("nvarchar(255)")
             .IsRequired();
         
-        builder.OwnsOne(b => b.Rating, pn => {
-            pn.Property(x => x.Value).HasColumnName("rating_value");
-            pn.Property(x => x.Value).HasColumnType("int");
-            pn.Property(x => x.Value).IsRequired();
-
-            pn.Property(x => x.Count).HasColumnName("rating_count");
-            pn.Property(x => x.Count).HasColumnType("int");
-            pn.Property(x => x.Count).IsRequired();
-        });
-
-        
-        builder.OwnsOne(b => b.Media, pn =>
-        {
-            pn.OwnsOne(b => b.Cover, pn =>
-            {
-                pn.Property(x => x.Value).HasColumnName("media_cover");
-                pn.Property(x => x.Value).HasColumnType("nvarchar(255)");
-                pn.Property(x => x.Value).IsRequired();
-            });
-            
-            pn.OwnsOne(b => b.Icon, pn =>
-            {
-                pn.Property(x => x.Value).HasColumnName("media_icon");
-                pn.Property(x => x.Value).HasColumnType("nvarchar(255)");
-                pn.Property(x => x.Value).IsRequired();
-            });
-        });
-
         builder
             .Property(x => x.Publish)
             .HasColumnName("publish_date")
@@ -158,6 +123,38 @@ public class GameConfiguration : IEntityTypeConfiguration<Game> {
             .HasColumnName("published_date")
             .HasColumnType("boolean")
             .IsRequired();
+        
+        builder.OwnsOne(b => b.Rating, pn => {
+            pn.Property(x => x.Value).HasColumnName("rating_value");
+            pn.Property(x => x.Value).HasColumnType("int");
+            pn.Property(x => x.Value).IsRequired();
 
+            pn.Property(x => x.Count).HasColumnName("rating_count");
+            pn.Property(x => x.Count).HasColumnType("int");
+            pn.Property(x => x.Count).IsRequired();
+        });
+        
+        builder.OwnsOne(b => b.Media, pn =>
+        {
+            pn.OwnsOne(b => b.Cover, pn =>
+            {
+                pn.Property(x => x.Value).HasColumnName("media_cover");
+                pn.Property(x => x.Value).HasColumnType("nvarchar(255)");
+                pn.Property(x => x.Value).IsRequired();
+            });
+            
+            pn.OwnsOne(b => b.Icon, pn =>
+            {
+                pn.Property(x => x.Value).HasColumnName("media_icon");
+                pn.Property(x => x.Value).HasColumnType("nvarchar(255)");
+                pn.Property(x => x.Value).IsRequired();
+            });
+        });
+        
+        builder
+            .HasOne(s => s.Developer)
+            .WithMany(p => p.RelationGames)
+            .HasForeignKey("developer_id")
+            .IsRequired();
     }
 }
