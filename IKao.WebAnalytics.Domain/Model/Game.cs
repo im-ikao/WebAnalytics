@@ -1,10 +1,11 @@
-﻿using IKao.WebAnalytics.Domain.DTO;
+﻿using IKao.WebAnalytics.Domain.Abstraction;
+using IKao.WebAnalytics.Domain.DTO;
 using IKao.WebAnalytics.Domain.ValueObjects;
 using NodaTime;
 
 namespace IKao.WebAnalytics.Domain.Model;
 
-public class Game : Entity<AppId>
+public class Game : BaseEntity<AppId>
 {
     public Name Title { get; set; }
     public Description Description { get; set; } 
@@ -21,6 +22,8 @@ public class Game : Entity<AppId>
     public Url Play { get; set; } 
 
     public Instant? Published { get; set; } 
-    public Instant? Removed { get; set; } 
-    public bool IsRemoved { get; set; } 
+    public virtual Instant CreationDate { get; set; }
+    public virtual Instant? ModificationDate { get; set; }
+    public virtual Instant? DeletionDate { get; set; }
+    public virtual bool IsDeleted { get; set; }
 }
