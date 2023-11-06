@@ -26,5 +26,6 @@ public class GameDTO : Entity<AppId>
     private Instant? _published;
     private Instant? _created;
     private Instant? _updated;
-    private Instant? _removed;
+    private Instant? _deleted;
+    private bool _isDeleted;
 }
