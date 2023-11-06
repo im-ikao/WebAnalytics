@@ -6,22 +6,21 @@ namespace IKao.WebAnalytics.Domain.Model;
 
 public class Game : Entity<AppId>
 {
-    private Name _title;
-    private Description _description;
-    private Description _seo;
-    private Description _instruction;
-    private Developer _developer;
+    public Name Title { get; set; }
+    public Description Description { get; set; } 
+    public Description Seo { get; set; } 
+    public Description Instruction { get; set; } 
+    public Developer Developer { get; set; } 
 
-    private AgeRating _age;
-    private Rating _rating;
-    private Counter _players;
+    public AgeRating Age { get; set; } 
+    public Rating Rating { get; set; } 
+    public Counter Players { get; set; } 
 
-    private Media _media;
+    public Media Media { get; set; } 
     
-    private Url _play;
+    public Url Play { get; set; } 
 
-    private Instant? _published;
-    private Instant? _created;
-    private Instant? _updated;
-    private Instant? _removed;
+    public Instant? Published { get; set; } 
+    public Instant? Removed { get; set; } 
+    public bool IsRemoved { get; set; } 
 }
