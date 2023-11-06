@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics.Trunk", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics.RateLimit", "IKao.WebAnalytics.RateLimit\IKao.WebAnalytics.RateLimit.csproj", "{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IKao.WebAnalytics.Infrastructure", "IKao.WebAnalytics.Infrastructure\IKao.WebAnalytics.Infrastructure.csproj", "{38782260-5E87-4090-A6A9-65FD03208A54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57E2A9E8-5E1B-46F3-B2E2-F3646FA4848A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38782260-5E87-4090-A6A9-65FD03208A54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38782260-5E87-4090-A6A9-65FD03208A54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38782260-5E87-4090-A6A9-65FD03208A54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38782260-5E87-4090-A6A9-65FD03208A54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
