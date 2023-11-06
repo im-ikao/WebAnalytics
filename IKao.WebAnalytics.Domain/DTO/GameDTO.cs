@@ -1,4 +1,5 @@
-﻿using IKao.WebAnalytics.Domain.ValueObjects;
+﻿using IKao.WebAnalytics.Domain.Model;
+using IKao.WebAnalytics.Domain.ValueObjects;
 using NodaTime;
 
 namespace IKao.WebAnalytics.Domain.DTO;
