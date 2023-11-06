@@ -3,19 +3,18 @@ using EFCore.BulkExtensions;
 using IKao.WebAnalytics.Domain.Abstraction;
 using IKao.WebAnalytics.Domain.DTO;
 using IKao.WebAnalytics.Domain.Model;
-using IKao.WebAnalytics.Domain.ValueObjects;
 using MassTransit;
 
 namespace IKao.WebAnalytics.Trunk.Application.Service;
 
-public class LongGamesUpdateService
+public class ShortGamesUpdateService
 {
     private readonly IEFRepository _repository;
     private readonly ILogger<LongGamesUpdateService> _logger;
     private readonly IMapper _mapper;
     private readonly IBus _bus;
 
-    public LongGamesUpdateService(
+    public ShortGamesUpdateService(
         IEFRepository repository,
         ILogger<LongGamesUpdateService> logger,
         IMapper mapper,
@@ -41,6 +40,15 @@ public class LongGamesUpdateService
             SetOutputIdentity = true,
             PreserveInsertOrder = false,
             UseOptionLoopJoin = false,
+            PropertiesToExcludeOnUpdate = new List<string>()
+            {
+                nameof(Game.Description),
+                nameof(Game.Seo),
+                nameof(Game.Instruction),
+                nameof(Game.Published),
+                nameof(Game.Play),
+                nameof(Game.Media),
+            },
             ReplaceReadEntities = true,
             TrackingEntities = true,
             IncludeGraph = true
