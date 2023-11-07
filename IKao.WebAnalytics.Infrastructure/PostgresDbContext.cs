@@ -14,12 +14,6 @@ public class PostgresDbContext : DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder builder)
     { 
-        builder.UseNpgsql("Host=127.0.0.1;Port=5432;Database=ygscraper;Username=ygscraper;Password=ygscraper;Include Error Detail=true",
-            o =>
-            {
-                o.UseNodaTime();
-            });
-        
         base.OnConfiguring(builder);
     }
     
