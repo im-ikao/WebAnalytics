@@ -1,4 +1,5 @@
 ﻿using IKao.WebAnalytics.Domain.Model;
+using IKao.WebAnalytics.Domain.Model.Relation;
 using IKao.WebAnalytics.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
@@ -32,4 +33,11 @@ public class PostgresDbContext : DbContext
     
     public DbSet<Game> Games { get; set; }
     public DbSet<Developer> Developers { get; set; }
+    public DbSet<Language> Languages { get; set; }
+    public DbSet<Tag> Tags { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    
+    public DbSet<GameCategoryRelation> CategoryRelations { get; set; }
+    public DbSet<GameLanguageRelation> LanguageRelations { get; set; }
+    public DbSet<GameTagRelation> TagRelations { get; set; }
 }
