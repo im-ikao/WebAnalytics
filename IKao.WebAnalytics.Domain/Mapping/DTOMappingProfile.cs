@@ -2,6 +2,8 @@
 using IKao.WebAnalytics.Domain.DTO;
 using IKao.WebAnalytics.Domain.Message;
 using IKao.WebAnalytics.Domain.Model;
+using IKao.WebAnalytics.Domain.Model.Relation;
+using IKao.WebAnalytics.Domain.ValueObjects;
 
 namespace IKao.WebAnalytics.Domain.Mapping;
 
@@ -55,5 +57,15 @@ public class DTOMappingProfile : Profile
         CreateMap<GameDTO[], ILongGamesUpdateRequestMessage>()
             .ForMember(x => x.Games, 
                 opt => opt.MapFrom(src => src));
+        
+        CreateMap<Marker, Tag>()
+            .ConstructUsing(x => new Tag(x.Id));
+        
+        CreateMap<Marker, Category>()
+            .ConstructUsing(x => new Category(x.Id));
+
+        CreateMap<Marker, Language>()
+            .ConstructUsing(x => new Language(x.Id));
+
     }
 }

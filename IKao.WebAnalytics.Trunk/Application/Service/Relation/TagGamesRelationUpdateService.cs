@@ -3,20 +3,22 @@ using EFCore.BulkExtensions;
 using IKao.WebAnalytics.Domain.Abstraction;
 using IKao.WebAnalytics.Domain.DTO;
 using IKao.WebAnalytics.Domain.Model;
+using IKao.WebAnalytics.Domain.Model.Relation;
+using IKao.WebAnalytics.Domain.ValueObjects;
 using MassTransit;
 
-namespace IKao.WebAnalytics.Trunk.Application.Service;
+namespace IKao.WebAnalytics.Trunk.Application.Service.Relation;
 
-public class ShortGamesUpdateService
+public class TagGamesRelationUpdateService
 {
     private readonly IEFRepository _repository;
-    private readonly ILogger<ShortGamesUpdateService> _logger;
+    private readonly ILogger<TagGamesRelationUpdateService> _logger;
     private readonly IMapper _mapper;
     private readonly IBus _bus;
 
-    public ShortGamesUpdateService(
+    public TagGamesRelationUpdateService(
         IEFRepository repository,
-        ILogger<ShortGamesUpdateService> logger,
+        ILogger<TagGamesRelationUpdateService> logger,
         IMapper mapper,
         IBus bus)
     {
@@ -28,27 +30,24 @@ public class ShortGamesUpdateService
 
     public void Process(GameDTO[] gamesDTO)
     {
-        var games = _mapper.Map<Game[]>(gamesDTO);
+        var ids = gamesDTO
+            .Select(x => x.Id)
+            .ToArray();
 
-        if (games == null)
-            throw new NullReferenceException();
+        var tags = gamesDTO
+            .SelectMany(x => x.Tags ?? new List<Marker>())
+            .Select(x => _mapper.Map<GameTagRelation>(x))
+            .ToArray();
 
         using var transaction = _repository.BeginTransaction();
         
-        _repository.InsertOrUpdateBulk(games, new BulkConfig()
+        // Remove where
+        
+        _repository.InsertOrUpdateBulk(tags, new BulkConfig()
         {
             SetOutputIdentity = true,
             PreserveInsertOrder = false,
             UseOptionLoopJoin = false,
-            PropertiesToExcludeOnUpdate = new List<string>()
-            {
-                nameof(Game.Description),
-                nameof(Game.Seo),
-                nameof(Game.Instruction),
-                nameof(Game.Publish),
-                nameof(Game.Play),
-                nameof(Game.Media),
-            },
             ReplaceReadEntities = true,
             TrackingEntities = true,
             IncludeGraph = true
@@ -59,14 +58,20 @@ public class ShortGamesUpdateService
 
     public async Task ProcessAsync(GameDTO[] gamesDTO)
     {
-        var games = _mapper.Map<Game[]>(gamesDTO);
+        var ids = gamesDTO
+            .Select(x => x.Id)
+            .ToArray();
 
-        if (games == null)
-            throw new NullReferenceException();
-
+        var tags = gamesDTO
+            .SelectMany(x => x.Tags ?? new List<Marker>())
+            .Select(x => _mapper.Map<GameTagRelation>(x))
+            .ToArray();
+        
         await using var transaction = await _repository.BeginTransactionAsync();
         
-        await _repository.InsertOrUpdateBulkAsync(games, new BulkConfig()
+        // Remove where
+        
+        await _repository.InsertOrUpdateBulkAsync(tags, new BulkConfig()
         {
             SetOutputIdentity = true,
             PreserveInsertOrder = false,
