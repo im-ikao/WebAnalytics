@@ -23,6 +23,22 @@ namespace IKao.WebAnalytics.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("categories", (string)null);
+                });
+
             modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Developer", b =>
                 {
                     b.Property<int>("Id")
@@ -106,6 +122,89 @@ namespace IKao.WebAnalytics.Infrastructure.Migrations
                     b.HasIndex("developer_id");
 
                     b.ToTable("games", (string)null);
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("languages", (string)null);
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Relation.GameCategoryRelation", b =>
+                {
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int")
+                        .HasColumnName("category_id");
+
+                    b.Property<int>("GameId")
+                        .HasColumnType("int")
+                        .HasColumnName("game_id");
+
+                    b.HasKey("CategoryId", "GameId");
+
+                    b.HasIndex("GameId");
+
+                    b.ToTable("game_categories", (string)null);
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Relation.GameLanguageRelation", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int")
+                        .HasColumnName("game_id");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int")
+                        .HasColumnName("language_id");
+
+                    b.HasKey("GameId", "LanguageId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("game_languages", (string)null);
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Relation.GameTagRelation", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int")
+                        .HasColumnName("game_id");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int")
+                        .HasColumnName("tag_id");
+
+                    b.HasKey("GameId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("game_tags", (string)null);
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(128)")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("tags", (string)null);
                 });
 
             modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Game", b =>
@@ -198,6 +297,51 @@ namespace IKao.WebAnalytics.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Rating")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Relation.GameCategoryRelation", b =>
+                {
+                    b.HasOne("IKao.WebAnalytics.Domain.Model.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKao.WebAnalytics.Domain.Model.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Relation.GameLanguageRelation", b =>
+                {
+                    b.HasOne("IKao.WebAnalytics.Domain.Model.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKao.WebAnalytics.Domain.Model.Language", null)
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("IKao.WebAnalytics.Domain.Model.Relation.GameTagRelation", b =>
+                {
+                    b.HasOne("IKao.WebAnalytics.Domain.Model.Game", null)
+                        .WithMany()
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("IKao.WebAnalytics.Domain.Model.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

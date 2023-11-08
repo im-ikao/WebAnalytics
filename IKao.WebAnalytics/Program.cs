@@ -1,15 +1,28 @@
 using IKao.WebAnalytics;
 using IKao.WebAnalytics.Infrastructure;
+using IKao.WebAnalytics.Infrastructure.Options;
 using Microsoft.EntityFrameworkCore;
 
 IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
+    .ConfigureServices((context, services) =>
     {
         services.AddHostedService<Worker>();
+        var configuration = context.Configuration;
         
-        services.AddScoped<PostgresDbContext>(db => new PostgresDbContext(new DbContextOptions<PostgresDbContext>()
+        var connectionOptions = configuration.GetSection("ConnectionStrings").Get<ConnectionStrings>();
+
+        if (connectionOptions == null)
+            throw new NullReferenceException(nameof(ConnectionStrings));
+        
+        services.AddSingleton<ConnectionStrings>(connectionOptions);
+        
+        var postgresOptionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>();
+        var postgresOptions = postgresOptionsBuilder.UseNpgsql(connectionOptions.RelationDatabase, x =>
         {
-        }));
+            x.UseNodaTime();
+        }).Options;
+
+        services.AddScoped<PostgresDbContext>(db => new PostgresDbContext(postgresOptions));
     })
     .Build();
 
