@@ -4,6 +4,7 @@ using IKao.WebAnalytics.Domain.Message;
 using IKao.WebAnalytics.Domain.Model;
 using IKao.WebAnalytics.Domain.Model.Relation;
 using IKao.WebAnalytics.Domain.ValueObjects;
+using NodaTime;
 
 namespace IKao.WebAnalytics.Domain.Mapping;
 
@@ -66,6 +67,9 @@ public class DTOMappingProfile : Profile
 
         CreateMap<Marker, Language>()
             .ConstructUsing(x => new Language(x.Id));
+
+        CreateMap<GameDTO, GameStats>()
+            .ConstructUsing(x => new GameStats(x.Updated, x.Id, x.Rating, x.Players));
 
     }
 }
