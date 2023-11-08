@@ -30,14 +30,8 @@ public class CategoryGamesRelationUpdateService
 
     public void Process(GameDTO[] gamesDTO)
     {
-        var ids = gamesDTO
-            .Select(x => x.Id)
-            .ToArray();
-
-        var relations = gamesDTO
-            .SelectMany(x => x.Categories ?? new List<Marker>())
-            .Select(x => _mapper.Map<GameCategoryRelation>(x))
-            .ToArray();
+        var ids = _mapper.Map<AppId[]>(gamesDTO);
+        var relations = _mapper.Map<GameCategoryRelation[]>(gamesDTO);
 
         using var transaction = _repository.BeginTransaction();
         
@@ -58,14 +52,9 @@ public class CategoryGamesRelationUpdateService
 
     public async Task ProcessAsync(GameDTO[] gamesDTO)
     {
-        var ids = gamesDTO
-            .Select(x => x.Id)
-            .ToArray();
+        var ids = _mapper.Map<AppId[]>(gamesDTO);
 
-        var relations = gamesDTO
-            .SelectMany(x => x.Categories ?? new List<Marker>())
-            .Select(x => _mapper.Map<GameCategoryRelation>(x))
-            .ToArray();
+        var relations = _mapper.Map<GameCategoryRelation[]>(gamesDTO);
         
         await using var transaction = await _repository.BeginTransactionAsync();
         

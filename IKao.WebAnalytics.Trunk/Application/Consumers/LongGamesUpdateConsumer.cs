@@ -13,13 +13,15 @@ public class LongGamesUpdateConsumer : IConsumer<ILongGamesUpdateRequestMessage>
     private readonly TagGamesRelationUpdateService _tags;
     private readonly LanguageGamesRelationUpdateService _languages;
     private readonly DeveloperUpdateService _developers;
+    private readonly GameStatsUpdateService _stats;
 
     public LongGamesUpdateConsumer(ILogger<ILongGamesUpdateRequestMessage> logger,
         LongGamesUpdateService games,
         CategoryGamesRelationUpdateService categories,
         TagGamesRelationUpdateService tags,
         LanguageGamesRelationUpdateService languages,
-        DeveloperUpdateService developers)
+        DeveloperUpdateService developers,
+        GameStatsUpdateService stats)
     {
         _logger = logger;
         _games = games;
@@ -27,6 +29,7 @@ public class LongGamesUpdateConsumer : IConsumer<ILongGamesUpdateRequestMessage>
         _tags = tags;
         _languages = languages;
         _developers = developers;
+        _stats = stats;
     }
     
     public async Task Consume(ConsumeContext<ILongGamesUpdateRequestMessage> context)
@@ -36,6 +39,6 @@ public class LongGamesUpdateConsumer : IConsumer<ILongGamesUpdateRequestMessage>
         await _tags.ProcessAsync(context.Message.Games);
         await _languages.ProcessAsync(context.Message.Games);
         await _categories.ProcessAsync(context.Message.Games);
-        // TODO: UPDATE RECORD IN TIME;
+        await _stats.ProcessAsync(context.Message.Games);
     }
 }
