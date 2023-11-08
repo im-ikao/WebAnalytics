@@ -47,4 +47,9 @@ public sealed class Game : BaseEntity<AppId>
     public override Instant? ModificationDate { get; set; }
     public override Instant? DeletionDate { get; set; }
     public override bool IsDeleted { get; set; }
+    
+    public List<Language> RelationLanguages { get; } = new();
+    public List<Category> RelationCategories { get; } = new();
+    public List<Tag> RelationTags { get; } = new();
+
 }
