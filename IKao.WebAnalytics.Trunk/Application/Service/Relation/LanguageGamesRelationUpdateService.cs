@@ -30,14 +30,8 @@ public class LanguageGamesRelationUpdateService
 
     public void Process(GameDTO[] gamesDTO)
     {
-        var ids = gamesDTO
-            .Select(x => x.Id)
-            .ToArray();
-
-        var relations = gamesDTO
-            .SelectMany(x => x.Languages ?? new List<Language>())
-            .Select(x => _mapper.Map<GameLanguageRelation>(x))
-            .ToArray();
+        var ids = _mapper.Map<AppId[]>(gamesDTO);
+        var relations = _mapper.Map<GameLanguageRelation[]>(gamesDTO);
 
         using var transaction = _repository.BeginTransaction();
         
@@ -58,15 +52,9 @@ public class LanguageGamesRelationUpdateService
 
     public async Task ProcessAsync(GameDTO[] gamesDTO)
     {
-        var ids = gamesDTO
-            .Select(x => x.Id)
-            .ToArray();
+        var ids = _mapper.Map<AppId[]>(gamesDTO);
 
-        var relations = gamesDTO
-            .SelectMany(x => x.Languages ?? new List<Language>())
-            .Select(x => _mapper.Map<GameLanguageRelation>(x))
-            .ToArray();
-        
+        var relations = _mapper.Map<GameLanguageRelation[]>(gamesDTO);
         await using var transaction = await _repository.BeginTransactionAsync();
         
         // Remove where

@@ -9,7 +9,7 @@ public sealed class Game : BaseEntity<AppId>
 {
     protected Game() { }
     
-    public Game(Name title, Description description, Description seo, Description instruction, Developer developer, AgeRating age, Rating rating, Counter players, Media media, Url play, Instant? publish, Instant creationDate, Instant? modificationDate, Instant? deletionDate, bool isDeleted)
+    public Game(Name title, Description description, Description seo, Description instruction, Developer developer, AgeRating age, Rating rating, Counter players, Media media, Url play, Instant? publish, Instant creationDate, Instant modificationDate, Instant? deletionDate, bool isDeleted)
     {
         Title = title;
         Description = description;
@@ -44,7 +44,7 @@ public sealed class Game : BaseEntity<AppId>
 
     public Instant? Publish { get; set; } 
     public override Instant CreationDate { get; set; }
-    public override Instant? ModificationDate { get; set; }
+    public override Instant ModificationDate { get; set; }
     public override Instant? DeletionDate { get; set; }
     public override bool IsDeleted { get; set; }
     

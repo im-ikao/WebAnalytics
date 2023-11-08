@@ -26,7 +26,7 @@ public class GameDTO : Entity<AppId>
 
     public Instant? Published { get; }
     public Instant Created { get; }
-    public Instant? Updated { get; }
+    public Instant Updated { get; }
     public Instant? Deleted { get; }
     public bool IsDeleted { get; }
 
@@ -42,7 +42,7 @@ public class GameDTO : Entity<AppId>
         Url play,
         Instant? published,
         Instant created,
-        Instant? updated,
+        Instant updated,
         Instant? deleted,
         bool isDeleted,
         List<Language>? languages = null,

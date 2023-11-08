@@ -2,6 +2,7 @@
 using EFCore.BulkExtensions;
 using IKao.WebAnalytics.Domain.Abstraction;
 using IKao.WebAnalytics.Domain.DTO;
+using IKao.WebAnalytics.Domain.Model;
 using IKao.WebAnalytics.Domain.Model.Relation;
 using IKao.WebAnalytics.Domain.ValueObjects;
 using MassTransit;
@@ -29,9 +30,7 @@ public class DeveloperUpdateService
 
     public void Process(GameDTO[] gamesDTO)
     {
-        var developers = gamesDTO
-            .Select(x => x.Developer)
-            .ToArray();
+        var developers =  _mapper.Map<Developer[]>(gamesDTO);
 
         using var transaction = _repository.BeginTransaction();
         
@@ -52,9 +51,7 @@ public class DeveloperUpdateService
 
     public async Task ProcessAsync(GameDTO[] gamesDTO)
     {
-        var developers = gamesDTO
-            .Select(x => x.Developer)
-            .ToArray();
+        var developers =  _mapper.Map<Developer[]>(gamesDTO);
         
         await using var transaction = await _repository.BeginTransactionAsync();
         

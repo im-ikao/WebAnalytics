@@ -4,6 +4,7 @@ using IKao.WebAnalytics.Domain.Message;
 using IKao.WebAnalytics.Domain.Model;
 using IKao.WebAnalytics.Domain.Model.Relation;
 using IKao.WebAnalytics.Domain.ValueObjects;
+using NodaTime;
 
 namespace IKao.WebAnalytics.Domain.Mapping;
 
@@ -67,5 +68,37 @@ public class DTOMappingProfile : Profile
         CreateMap<Marker, Language>()
             .ConstructUsing(x => new Language(x.Id));
 
+        CreateMap<GameDTO, GameStats>()
+            .ConstructUsing(x => new GameStats(x.Updated, x.Id, x.Rating, x.Players));
+
+        CreateMap<GameDTO[], GameStats[]>()
+            .ConstructUsing((ctor, ctx) => ctor.Select(x => ctx.Mapper.Map<GameStats>(x)).ToArray());
+
+        CreateMap<GameDTO[], Developer[]>()
+            .ConstructUsing((ctor, ctx) => ctor.Select(x => x.Developer).ToArray());
+        
+        CreateMap<GameDTO[], AppId[]>()
+            .ConstructUsing((ctor, ctx) => ctor.Select(x => x.Id).ToArray());
+        
+        CreateMap<GameDTO[], GameCategoryRelation[]>()
+            .ConstructUsing((ctor, ctx) => 
+                ctor
+                .SelectMany(x => x.Categories ?? new List<Marker>())
+                .Select(x => ctx.Mapper.Map<GameCategoryRelation>(x))
+                .ToArray());
+        
+        CreateMap<GameDTO[], GameTagRelation[]>()
+            .ConstructUsing((ctor, ctx) => 
+                ctor
+                    .SelectMany(x => x.Tags ?? new List<Marker>())
+                    .Select(x => ctx.Mapper.Map<GameTagRelation>(x))
+                    .ToArray());
+        
+        CreateMap<GameDTO[], GameLanguageRelation[]>()
+            .ConstructUsing((ctor, ctx) => 
+                ctor
+                    .SelectMany(x => x.Languages ?? new List<Language>())
+                    .Select(x => ctx.Mapper.Map<GameLanguageRelation>(x))
+                    .ToArray());
     }
 }

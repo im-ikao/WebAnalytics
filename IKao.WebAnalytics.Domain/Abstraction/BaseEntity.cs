@@ -16,7 +16,7 @@ public class BaseEntity<TPrimaryKey>  : Entity<TPrimaryKey>, ICreateDateEntity, 
     ///     <cref>{DateTime}</cref>
     /// </see>
     /// </summary>
-    public virtual Instant? ModificationDate { get; set; }
+    public virtual Instant ModificationDate { get; set; }
 
     /// <summary>
     /// Deletion Date <see>

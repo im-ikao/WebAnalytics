@@ -7,5 +7,5 @@ public interface IUpdateDateEntity
     /// <summary>
     /// Modification Date
     /// </summary>
-    public Instant? ModificationDate { get; set; }
+    public Instant ModificationDate { get; set; }
 }

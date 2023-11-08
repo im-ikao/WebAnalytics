@@ -9,18 +9,23 @@ public class ShortGamesUpdateConsumer : IConsumer<IShortGamesUpdateRequestMessag
     private readonly ILogger<IShortGamesUpdateRequestMessage> _logger;
     private readonly ShortGamesUpdateService _games;
     private readonly DeveloperUpdateService _developers;
-    
-    public ShortGamesUpdateConsumer(ILogger<IShortGamesUpdateRequestMessage> logger, ShortGamesUpdateService games, DeveloperUpdateService developers)
+    private readonly GameStatsUpdateService _stats;
+
+    public ShortGamesUpdateConsumer(ILogger<IShortGamesUpdateRequestMessage> logger,
+        ShortGamesUpdateService games,
+        DeveloperUpdateService developers,
+        GameStatsUpdateService stats)
     {
         _logger = logger;
         _games = games;
         _developers = developers;
+        _stats = stats;
     }
     
     public async Task Consume(ConsumeContext<IShortGamesUpdateRequestMessage> context)
     {
         await _developers.ProcessAsync(context.Message.Games);
         await _games.ProcessAsync(context.Message.Games);
-        // TODO: UPDATE RECORD IN TIME;
+        await _stats.ProcessAsync(context.Message.Games);
     }
 }
