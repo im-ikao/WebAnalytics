@@ -7,18 +7,20 @@ namespace IKao.WebAnalytics.Trunk.Application.Consumers;
 public class ShortGamesUpdateConsumer : IConsumer<IShortGamesUpdateRequestMessage>
 {
     private readonly ILogger<IShortGamesUpdateRequestMessage> _logger;
-    private readonly ShortGamesUpdateService _gamesUpdateService;
-
-    public ShortGamesUpdateConsumer(ILogger<IShortGamesUpdateRequestMessage> logger, ShortGamesUpdateService gamesUpdateService)
+    private readonly ShortGamesUpdateService _games;
+    private readonly DeveloperUpdateService _developers;
+    
+    public ShortGamesUpdateConsumer(ILogger<IShortGamesUpdateRequestMessage> logger, ShortGamesUpdateService games, DeveloperUpdateService developers)
     {
         _logger = logger;
-        _gamesUpdateService = gamesUpdateService;
+        _games = games;
+        _developers = developers;
     }
     
     public async Task Consume(ConsumeContext<IShortGamesUpdateRequestMessage> context)
     {
-        await _gamesUpdateService.ProcessAsync(context.Message.Games);
+        await _developers.ProcessAsync(context.Message.Games);
+        await _games.ProcessAsync(context.Message.Games);
         // TODO: UPDATE RECORD IN TIME;
-        // TODO: UPDATE DEVELOPERS ?;
     }
 }

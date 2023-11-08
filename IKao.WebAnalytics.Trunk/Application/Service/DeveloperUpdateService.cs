@@ -2,21 +2,22 @@
 using EFCore.BulkExtensions;
 using IKao.WebAnalytics.Domain.Abstraction;
 using IKao.WebAnalytics.Domain.DTO;
-using IKao.WebAnalytics.Domain.Model;
+using IKao.WebAnalytics.Domain.Model.Relation;
+using IKao.WebAnalytics.Domain.ValueObjects;
 using MassTransit;
 
 namespace IKao.WebAnalytics.Trunk.Application.Service;
 
-public class ShortGamesUpdateService
+public class DeveloperUpdateService 
 {
     private readonly IEFRepository _repository;
-    private readonly ILogger<ShortGamesUpdateService> _logger;
+    private readonly ILogger<DeveloperUpdateService> _logger;
     private readonly IMapper _mapper;
     private readonly IBus _bus;
 
-    public ShortGamesUpdateService(
+    public DeveloperUpdateService(
         IEFRepository repository,
-        ILogger<ShortGamesUpdateService> logger,
+        ILogger<DeveloperUpdateService> logger,
         IMapper mapper,
         IBus bus)
     {
@@ -28,27 +29,19 @@ public class ShortGamesUpdateService
 
     public void Process(GameDTO[] gamesDTO)
     {
-        var games = _mapper.Map<Game[]>(gamesDTO);
-
-        if (games == null)
-            throw new NullReferenceException();
+        var developers = gamesDTO
+            .Select(x => x.Developer)
+            .ToArray();
 
         using var transaction = _repository.BeginTransaction();
         
-        _repository.InsertOrUpdateBulk(games, new BulkConfig()
+        // Remove where
+        
+        _repository.InsertOrUpdateBulk(developers, new BulkConfig()
         {
             SetOutputIdentity = true,
             PreserveInsertOrder = false,
             UseOptionLoopJoin = false,
-            PropertiesToExcludeOnUpdate = new List<string>()
-            {
-                nameof(Game.Description),
-                nameof(Game.Seo),
-                nameof(Game.Instruction),
-                nameof(Game.Publish),
-                nameof(Game.Play),
-                nameof(Game.Media),
-            },
             ReplaceReadEntities = true,
             TrackingEntities = true,
             IncludeGraph = true
@@ -59,14 +52,15 @@ public class ShortGamesUpdateService
 
     public async Task ProcessAsync(GameDTO[] gamesDTO)
     {
-        var games = _mapper.Map<Game[]>(gamesDTO);
-
-        if (games == null)
-            throw new NullReferenceException();
-
+        var developers = gamesDTO
+            .Select(x => x.Developer)
+            .ToArray();
+        
         await using var transaction = await _repository.BeginTransactionAsync();
         
-        await _repository.InsertOrUpdateBulkAsync(games, new BulkConfig()
+        // Remove where
+        
+        await _repository.InsertOrUpdateBulkAsync(developers, new BulkConfig()
         {
             SetOutputIdentity = true,
             PreserveInsertOrder = false,

@@ -2,7 +2,7 @@
 
 public class Language : Entity<int>
 {
-    public string Value { get; private set; }
+    public string Value { get; private set; } = "";
     public virtual ICollection<Game> RelationGames { get; set; }
     
     protected Language() { }
@@ -16,6 +16,11 @@ public class Language : Entity<int>
     }
     
     public Language(int id, string value) : this(value)
+    {
+        Id = id;
+    }
+    
+    public Language(int id)
     {
         Id = id;
     }

@@ -1,5 +1,6 @@
 ﻿using IKao.WebAnalytics.Domain.Message;
 using IKao.WebAnalytics.Trunk.Application.Service;
+using IKao.WebAnalytics.Trunk.Application.Service.Relation;
 using MassTransit;
 
 namespace IKao.WebAnalytics.Trunk.Application.Consumers;
@@ -7,18 +8,34 @@ namespace IKao.WebAnalytics.Trunk.Application.Consumers;
 public class LongGamesUpdateConsumer : IConsumer<ILongGamesUpdateRequestMessage>
 {
     private readonly ILogger<ILongGamesUpdateRequestMessage> _logger;
-    private readonly LongGamesUpdateService _gamesUpdateService;
+    private readonly LongGamesUpdateService _games;
+    private readonly CategoryGamesRelationUpdateService _categories;
+    private readonly TagGamesRelationUpdateService _tags;
+    private readonly LanguageGamesRelationUpdateService _languages;
+    private readonly DeveloperUpdateService _developers;
 
-    public LongGamesUpdateConsumer(ILogger<ILongGamesUpdateRequestMessage> logger, LongGamesUpdateService gamesUpdateService)
+    public LongGamesUpdateConsumer(ILogger<ILongGamesUpdateRequestMessage> logger,
+        LongGamesUpdateService games,
+        CategoryGamesRelationUpdateService categories,
+        TagGamesRelationUpdateService tags,
+        LanguageGamesRelationUpdateService languages,
+        DeveloperUpdateService developers)
     {
         _logger = logger;
-        _gamesUpdateService = gamesUpdateService;
+        _games = games;
+        _categories = categories;
+        _tags = tags;
+        _languages = languages;
+        _developers = developers;
     }
     
     public async Task Consume(ConsumeContext<ILongGamesUpdateRequestMessage> context)
     {
-        await _gamesUpdateService.ProcessAsync(context.Message.Games);
+        await _developers.ProcessAsync(context.Message.Games);
+        await _games.ProcessAsync(context.Message.Games);
+        await _tags.ProcessAsync(context.Message.Games);
+        await _languages.ProcessAsync(context.Message.Games);
+        await _categories.ProcessAsync(context.Message.Games);
         // TODO: UPDATE RECORD IN TIME;
-        // TODO: UPDATE DEVELOPERS ?;
     }
 }
