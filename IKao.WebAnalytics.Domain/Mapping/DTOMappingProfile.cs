@@ -32,7 +32,10 @@ public class DTOMappingProfile : Profile
                 game.IsDeleted,
                 null,
                 null,
-                null));
+                null))
+            .ForMember(x => x.Languages, opt => opt.Ignore())
+            .ForMember(x => x.Tags, opt => opt.Ignore())
+            .ForMember(x => x.Categories, opt => opt.Ignore());
         
         CreateMap<GameDTO, Game>()
             .ConstructUsing(dto => new Game(
@@ -51,27 +54,45 @@ public class DTOMappingProfile : Profile
                 dto.Created,
                 dto.Updated,
                 dto.Deleted,
-                dto.IsDeleted));
+                dto.IsDeleted))
+            .ForMember(x => x.Publish, opt => opt.Ignore())
+            .ForMember(x => x.CreationDate, opt => opt.Ignore())
+            .ForMember(x => x.ModificationDate, opt => opt.Ignore())
+            .ForMember(x => x.DeletionDate, opt => opt.Ignore())
+            .ForMember(x => x.RelationLanguages, opt => opt.Ignore())
+            .ForMember(x => x.RelationCategories, opt => opt.Ignore())
+            .ForMember(x => x.RelationTags, opt => opt.Ignore());
 
-        CreateMap<ILongGamesUpdateRequestMessage, Game[]>()
-            .ForMember(x => x, 
-                opt => opt.MapFrom(src => src.Games));
+        CreateMap<ILongGamesUpdateRequestMessage, Game[]>(MemberList.Destination)
+            .ConstructUsing((request, ctx) => request
+                .Games
+                .Select(dto => ctx.Mapper.Map<Game>(dto))
+                .ToArray());
 
-        CreateMap<GameDTO[], ILongGamesUpdateRequestMessage>()
+        CreateMap<GameDTO[], ILongGamesUpdateRequestMessage>(MemberList.Destination)
             .ForMember(x => x.Games, 
                 opt => opt.MapFrom(src => src));
         
         CreateMap<Marker, Tag>()
-            .ConstructUsing(x => new Tag(x.Id));
-        
+            .ConstructUsing(x => new Tag(x.Id))
+            .ForMember(x => x.Name, opt => opt.Ignore())
+            .ForMember(x => x.RelationGames, opt => opt.Ignore());
+
         CreateMap<Marker, Category>()
-            .ConstructUsing(x => new Category(x.Id));
+            .ConstructUsing(x => new Category(x.Id))
+            .ForMember(x => x.Name, opt => opt.Ignore())
+            .ForMember(x => x.RelationGames, opt => opt.Ignore());
 
         CreateMap<Marker, Language>()
-            .ConstructUsing(x => new Language(x.Id));
+            .ConstructUsing(x => new Language(x.Id))
+            .ForMember(x => x.Value, opt => opt.Ignore())
+            .ForMember(x => x.RelationGames, opt => opt.Ignore());
 
         CreateMap<GameDTO, GameStats>()
-            .ConstructUsing(x => new GameStats(x.Updated, x.Id, x.Rating, x.Players));
+            .ConstructUsing(x => new GameStats(x.Updated, x.Id, x.Rating, x.Players))
+            .ForMember(x => x.CreationDate, opt => opt.Ignore())
+            .ForMember(x => x.ModificationDate, opt => opt.Ignore())
+            .ForMember(x => x.DeletionDate, opt => opt.Ignore());
 
         CreateMap<GameDTO[], GameStats[]>()
             .ConstructUsing((ctor, ctx) => ctor.Select(x => ctx.Mapper.Map<GameStats>(x)).ToArray());

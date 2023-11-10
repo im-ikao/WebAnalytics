@@ -10,13 +10,13 @@ using NodaTime;
 
 namespace IKao.WebAnalytics.Scrape.Infrastructure.Mapping;
 
-public class RequestMapper : Profile
+public class RequestMappingProfile : Profile
 {
-     public RequestMapper()
+     public RequestMappingProfile()
      {
          var iconConverter = new PrefixToUrlConverter(128, 128);
          var coverConverter = new PrefixToUrlConverter(350, 209);
-         
+
          CreateMap<GetShortGamesResponse.Item, GameDTO>()
              .ConstructUsing((ctor, ctx) =>
                  new GameDTO(new AppId(ctor.AppId),
@@ -35,7 +35,11 @@ public class RequestMapper : Profile
                      SystemClock.Instance.GetCurrentInstant(),
                      SystemClock.Instance.GetCurrentInstant(),
                      null,
-                     false));
+                     false))
+             .ForMember(x => x.Languages, opt => opt.Ignore())
+             .ForMember(x => x.Tags, opt => opt.Ignore())
+             .ForMember(x => x.Categories, opt => opt.Ignore())
+             .ForMember(x => x.Id, opt => opt.Ignore());
          
          CreateMap<GetShortGamesResponse, GameDTO[]>()
              .ConstructUsing((ctor, ctx) =>
@@ -71,7 +75,11 @@ public class RequestMapper : Profile
                      false,
                      ctor.Features.Languages.Select(x => new Language(x)).ToList(),
                      ctor.TagIDs.Select(x => new Marker(x)).ToList(),
-                     ctor.CategoryIDs.Select(x => new Marker(x)).ToList()));
+                     ctor.CategoryIDs.Select(x => new Marker(x)).ToList()))
+             .ForMember(x => x.Languages, opt => opt.Ignore())
+             .ForMember(x => x.Tags, opt => opt.Ignore())
+             .ForMember(x => x.Categories, opt => opt.Ignore())
+             .ForMember(x => x.Id, opt => opt.Ignore());
 
          CreateMap<GetLongGamesResponse, GameDTO[]>()
              .ConstructUsing((ctor, ctx) =>

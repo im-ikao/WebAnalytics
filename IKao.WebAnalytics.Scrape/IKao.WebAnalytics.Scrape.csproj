@@ -9,12 +9,28 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.1" />
+        <PackageReference Include="MassTransit.Abstractions" Version="8.1.1" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Polly" Version="8.1.0" />
+        <PackageReference Include="RestSharp" Version="110.2.0" />
+        <PackageReference Include="WebSerializer" Version="1.3.0" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Application\" />
+      <Folder Include="Domain\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\IKao.WebAnalytics.Domain\IKao.WebAnalytics.Domain.csproj" />
+      <ProjectReference Include="..\IKao.WebAnalytics.RateLimit\IKao.WebAnalytics.RateLimit.csproj" />
     </ItemGroup>
 </Project>
