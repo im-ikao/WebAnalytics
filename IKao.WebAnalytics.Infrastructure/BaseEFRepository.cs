@@ -1,4 +1,5 @@
-﻿using IKao.WebAnalytics.Domain.Abstraction;
+﻿using System.Linq.Expressions;
+using IKao.WebAnalytics.Domain.Abstraction;
 using Microsoft.EntityFrameworkCore;
 using NodaTime;
 using EFCore.BulkExtensions;
@@ -65,6 +66,41 @@ public class BaseEFRepository : IEFRepository
     {
         InsertBaseEntityBulkConfigBootstrap<TEntity, TPrimaryKey>(config);
         await _context.BulkInsertOrUpdateAsync(entity, config, cancellationToken: cancellationToken);
+    }
+
+    public IQueryable<TEntity> GetQueryable<TEntity>() where TEntity : class
+    {
+        return _context.Set<TEntity>().AsQueryable();
+    }
+
+    public IQueryable<TEntity> GetQueryable<TEntity>(Expression<Func<TEntity, bool>> filter) where TEntity : class
+    {
+        return _context.Set<TEntity>().Where(filter);
+    }
+    
+    private IQueryable<TEntity> FindQueryable<TEntity>(bool asNoTracking) where TEntity : class
+    {
+        var queryable = GetQueryable<TEntity>();
+        if (asNoTracking)
+        {
+            queryable = queryable.AsNoTracking();
+        }
+        return queryable;
+    }
+
+    public List<TEntity> GetMultiple<TEntity>(bool asNoTracking) where TEntity : class
+    {
+        return FindQueryable<TEntity>(asNoTracking).ToList();
+    }
+
+    public async Task<List<TEntity>> GetMultipleAsync<TEntity>(bool asNoTracking, CancellationToken cancellationToken = default) where TEntity : class
+    {
+        return await FindQueryable<TEntity>(asNoTracking).ToListAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<List<TEntity>> GetMultipleAsync<TEntity>(bool asNoTracking, Expression<Func<TEntity, bool>> whereExpression, CancellationToken cancellationToken = default) where TEntity : class
+    {
+        return await FindQueryable<TEntity>(asNoTracking).Where(whereExpression).ToListAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public IDbContextTransaction BeginTransaction()
