@@ -4,5 +4,5 @@ namespace IKao.WebAnalytics.Domain.Message;
 
 public class IShortGamesUpdateRequestMessage
 {
-    public GameDTO[] Games { get; }
+    public GameDTO[] Games { get; set; }
 }
