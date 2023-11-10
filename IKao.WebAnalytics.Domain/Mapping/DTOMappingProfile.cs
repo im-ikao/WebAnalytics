@@ -14,6 +14,7 @@ public class DTOMappingProfile : Profile
     {
         CreateMap<Game, GameDTO>()
             .ConstructUsing(game => new GameDTO(
+                game.Id,
                 game.Title,
                 game.Description,
                 game.Seo,
@@ -35,6 +36,7 @@ public class DTOMappingProfile : Profile
         
         CreateMap<GameDTO, Game>()
             .ConstructUsing(dto => new Game(
+                dto.Id,
                 dto.Title,
                 dto.Description,
                 dto.Seo,

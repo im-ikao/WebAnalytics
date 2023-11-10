@@ -9,8 +9,9 @@ public sealed class Game : BaseEntity<AppId>
 {
     protected Game() { }
     
-    public Game(Name title, Description description, Description seo, Description instruction, Developer developer, AgeRating age, Rating rating, Counter players, Media media, Url play, Instant? publish, Instant creationDate, Instant modificationDate, Instant? deletionDate, bool isDeleted)
+    public Game(AppId id, Name title, Description description, Description seo, Description instruction, Developer developer, AgeRating age, Rating rating, Counter players, Media media, Url play, Instant? publish, Instant creationDate, Instant modificationDate, Instant? deletionDate, bool isDeleted)
     {
+        Id = id;
         Title = title;
         Description = description;
         Seo = seo;

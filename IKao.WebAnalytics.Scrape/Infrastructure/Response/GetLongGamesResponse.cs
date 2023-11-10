@@ -11,19 +11,19 @@ public class GetLongGamesResponse
     public class Game
     {
         [JsonProperty("categoryIDs")]
-        public long[] CategoryIDs { get; set; }
+        public int[] CategoryIDs { get; set; }
 
         [JsonProperty("title")]
         public string Title { get; set; }
 
         [JsonProperty("appID")]
-        public long AppId { get; set; }
+        public int AppId { get; set; }
 
         [JsonProperty("ratingCount")]
-        public long RatingCount { get; set; }
+        public int RatingCount { get; set; }
 
         [JsonProperty("rating")]
-        public double Rating { get; set; }
+        public float Rating { get; set; }
 
         [JsonProperty("url")]
         public Uri Url { get; set; }
@@ -32,7 +32,7 @@ public class GetLongGamesResponse
         public string[] CategoriesNames { get; set; }
         
         [JsonProperty("tagIDs")]
-        public long[] TagIDs { get; set; }
+        public int[] TagIDs { get; set; }
 
         [JsonProperty("description")]
         public string Description { get; set; }
@@ -50,7 +50,7 @@ public class GetLongGamesResponse
         public string PremiumDescription { get; set; }
 
         [JsonProperty("playersCount")]
-        public long PlayersCount { get; set; }
+        public int PlayersCount { get; set; }
 
         [JsonProperty("firstPublished")]
         public long FirstPublished { get; set; }

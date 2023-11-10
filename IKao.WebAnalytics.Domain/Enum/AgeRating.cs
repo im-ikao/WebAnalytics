@@ -6,5 +6,6 @@ public enum AgeRating
     The16 = 16, 
     The6 = 6,
     The12 = 12,
-    The18 = 18
+    The18 = 18,
+    None
 }

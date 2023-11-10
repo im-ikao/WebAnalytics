@@ -30,7 +30,9 @@ public class GameDTO : Entity<AppId>
     public Instant? Deleted { get; }
     public bool IsDeleted { get; }
 
-    public GameDTO(Name title,
+    public GameDTO(
+        AppId id,
+        Name title,
         Description description,
         Description seo,
         Description instruction,
@@ -49,6 +51,7 @@ public class GameDTO : Entity<AppId>
         List<Marker>? tags = null,
         List<Marker>? categories = null)
     {
+        Id = id;
         Title = title;
         Description = description;
         Seo = seo;
