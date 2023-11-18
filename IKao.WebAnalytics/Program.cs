@@ -14,7 +14,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         if (connectionOptions == null)
             throw new NullReferenceException(nameof(ConnectionStrings));
         
-        services.AddSingleton<ConnectionStrings>(connectionOptions);
+        services.AddSingleton(connectionOptions);
         
         var postgresOptionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>();
         var postgresOptions = postgresOptionsBuilder.UseNpgsql(connectionOptions.RelationDatabase, x =>

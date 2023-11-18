@@ -11,6 +11,7 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="MassTransit" Version="8.1.1" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.1" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1"/>
     </ItemGroup>
 
@@ -27,5 +28,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\IKao.WebAnalytics.Domain\IKao.WebAnalytics.Domain.csproj" />
+      <ProjectReference Include="..\IKao.WebAnalytics.Infrastructure\IKao.WebAnalytics.Infrastructure.csproj" />
     </ItemGroup>
 </Project>

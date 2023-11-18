@@ -2,15 +2,10 @@
 
 namespace IKao.WebAnalytics.Scrape.Infrastructure.Normalizer;
 
-public class GetShortGamesResponsesNormalizer : IResponseNormalizer<List<GetShortGamesResponse>>
+public class GetShortGamesResponsesNormalizer<T> : IResponseNormalizer<T>
 {
-    public List<GetShortGamesResponse> Normalize(List<GetShortGamesResponse> responses)
+    public T Normalize(T responses)
     {
-        responses.ForEach(x =>
-        {
-            
-        });
-        
         return responses;
     }
 }
